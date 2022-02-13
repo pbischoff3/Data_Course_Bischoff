@@ -163,7 +163,7 @@ iris_row_even
 # 2.  Create a new object called iris_chr which is a copy of iris, except where every column is a character class
 iris_chr <- as.character(iris)
 iris_chr
-class(iris_chr)
+class(iris_chr) #CREATE EACH INDIVIDUAL COLUMN. LAPPLY(GIVE_DATA_FRAME,APPLY TO EVERYTHING)
 
 
 # 3.  Create a new numeric vector object named "Sepal.Area" which is the product of Sepal.Length and Sepal.Width
