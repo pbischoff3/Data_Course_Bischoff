@@ -13,7 +13,7 @@ mpg %>%
   # scale_color_viridis_d()
   scale_color_manual(values = c("Orange","Purple")) +
   facet_wrap(~drv) +
-  theme(strip.text = element_text(face="bold",color="Red"),
+  theme(strip.text = (face="bold",color="Red"),
         strip.background = element_rect(fill="White",color="Blue",
                                         linetype=2),
         axis.title.x = element_text(angle=180),

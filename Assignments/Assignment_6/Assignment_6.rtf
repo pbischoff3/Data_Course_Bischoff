@@ -1,0 +1,255 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
+{\*\generator Riched20 10.0.22000}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\f0\fs22\lang9 #4: Generates an animated plot that matches this one (absorbance values are mean of all 3 replicates for each group):\par
+#This plot is just showing values for the substrate \ldblquote Itaconic Acid\rdblquote\par
+\par
+\par
+### CLEAR CREEK\par
+Clear_creek_24_.1 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Clear_Creek", Time == 24, Dilution ==.100) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Clear_creek_24_.01 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Clear_Creek", Time == 24, Dilution ==.010) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Clear_creek_24_.001 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Clear_Creek", Time == 24, Dilution ==.001) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Clear_Creek_24_list <- #### first round, 24 hours\par
+  list(Clear_creek_24_.1,Clear_creek_24_.01,Clear_creek_24_.001) %>% \par
+  reduce(full_join)\par
+\par
+\par
+Clear_creek_48_.1 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Clear_Creek", Time == 48, Dilution ==.100) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Clear_creek_48_.01 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Clear_Creek", Time == 48, Dilution ==.010) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Clear_creek_48_.001 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Clear_Creek", Time == 48, Dilution ==.001) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Clear_Creek_48_list <- #### 48 hours\par
+  list(Clear_creek_48_.1,Clear_creek_48_.01,Clear_creek_48_.001) %>% \par
+  reduce(full_join)\par
+\par
+\par
+Clear_creek_144_.1 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Clear_Creek", Time == 144, Dilution ==.100) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Clear_creek_144_.01 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Clear_Creek", Time == 144, Dilution ==.010) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Clear_creek_144_.001 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Clear_Creek", Time == 144, Dilution ==.001) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Clear_Creek_144_list <- #### 144 hours\par
+  list(Clear_creek_144_.1,Clear_creek_144_.01,Clear_creek_144_.001) %>% \par
+  reduce(full_join)\par
+\par
+Clear_Creek_TOTAL <- #### TOTAL\par
+  list(Clear_Creek_144_list,Clear_Creek_48_list,Clear_Creek_24_list) %>% \par
+  reduce(full_join)\par
+### END OF CLEAR CREEK\par
+\par
+\par
+\par
+### SOIL 1\par
+Soil_1_24_.1 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Soil_1", Time == 24, Dilution ==.100) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Soil_1_24_.01 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Soil_1", Time == 24, Dilution ==.010) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Soil_1_24_.001 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Soil_1", Time == 24, Dilution ==.001) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Soil_1_24_list <- #### first round, 24 hours\par
+  list(Soil_1_24_.1,Soil_1_24_.01,Soil_1_24_.001) %>% \par
+  reduce(full_join)\par
+\par
+\par
+Soil_1_48_.1 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Soil_1", Time == 48, Dilution ==.100) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Soil_1_48_.01 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Soil_1", Time == 48, Dilution ==.010) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Soil_1_48_.001 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Soil_1", Time == 48, Dilution ==.001) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Soil_1_48_list <- #### 48 hours\par
+  list(Soil_1_48_.1,Soil_1_48_.01,Soil_1_48_.001) %>% \par
+  reduce(full_join)\par
+\par
+\par
+Soil_1_144_.1 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Soil_1", Time == 144, Dilution ==.100) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Soil_1_144_.01 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Soil_1", Time == 144, Dilution ==.010) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Soil_1_144_.001 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Soil_1", Time == 144, Dilution ==.001) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Soil_1_144_list <- #### 144 hours\par
+  list(Soil_1_144_.1,Soil_1_144_.01,Soil_1_144_.001) %>% \par
+  reduce(full_join)\par
+\par
+Soil_1_TOTAL <- #### TOTAL\par
+  list(Soil_1_144_list,Soil_1_48_list,Soil_1_24_list) %>% \par
+  reduce(full_join)\par
+### END OF SOIL_1   \par
+\par
+\par
+\par
+### SOIL 2\par
+Soil_2_24_.1 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Soil_2", Time == 24, Dilution ==.100) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Soil_2_24_.01 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Soil_2", Time == 24, Dilution ==.010) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Soil_2_24_.001 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Soil_2", Time == 24, Dilution ==.001) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Soil_2_24_list <- #### first round, 24 hours\par
+  list(Soil_2_24_.1,Soil_2_24_.01,Soil_2_24_.001) %>% \par
+  reduce(full_join)\par
+\par
+\par
+Soil_2_48_.1 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Soil_2", Time == 48, Dilution ==.100) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Soil_2_48_.01 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Soil_2", Time == 48, Dilution ==.010) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Soil_2_48_.001 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Soil_2", Time == 48, Dilution ==.001) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Soil_2_48_list <- #### 48 hours\par
+  list(Soil_2_48_.1,Soil_2_48_.01,Soil_2_48_.001) %>% \par
+  reduce(full_join)\par
+\par
+\par
+Soil_2_144_.1 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Soil_2", Time == 144, Dilution ==.100) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Soil_2_144_.01 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Soil_2", Time == 144, Dilution ==.010) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Soil_2_144_.001 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Soil_2", Time == 144, Dilution ==.001) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Soil_2_144_list <- #### 144 hours\par
+  list(Soil_2_144_.1,Soil_2_144_.01,Soil_2_144_.001) %>% \par
+  reduce(full_join)\par
+\par
+Soil_2_TOTAL <- #### TOTAL\par
+  list(Soil_2_144_list,Soil_2_48_list,Soil_2_24_list) %>% \par
+  reduce(full_join)\par
+### END OF SOIL_1          \par
+\par
+\par
+\par
+### Waste Water\par
+Waste_Water_24_.1 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Waste_Water", Time == 24, Dilution ==.100) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Waste_Water_24_.01 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Waste_Water", Time == 24, Dilution ==.010) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Waste_Water_24_.001 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Waste_Water", Time == 24, Dilution ==.001) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Waste_Water_24_list <- #### first round, 24 hours\par
+  list(Waste_Water_24_.1,Waste_Water_24_.01,Waste_Water_24_.001) %>% \par
+  reduce(full_join)\par
+\par
+\par
+Waste_Water_48_.1 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Waste_Water", Time == 48, Dilution ==.100) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Waste_Water_48_.01 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Waste_Water", Time == 48, Dilution ==.010) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Waste_Water_48_.001 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Waste_Water", Time == 48, Dilution ==.001) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Waste_Water_48_list <- #### 48 hours\par
+  list(Waste_Water_48_.1,Waste_Water_48_.01,Waste_Water_48_.001) %>% \par
+  reduce(full_join)\par
+\par
+\par
+Waste_Water_144_.1 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Waste_Water", Time == 144, Dilution ==.100) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Waste_Water_144_.01 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Waste_Water", Time == 144, Dilution ==.010) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Waste_Water_144_.001 <- dat2 %>% \par
+  filter(Substrate == "Itaconic Acid",`Sample ID` == "Waste_Water", Time == 144, Dilution ==.001) %>% \par
+  mutate(Mean_absorbance = mean(Absorbance))\par
+\par
+Waste_Water_144_list <- #### 144 hours\par
+  list(Waste_Water_144_.1,Waste_Water_144_.01,Waste_Water_144_.001) %>% \par
+  reduce(full_join)\par
+\par
+Waste_Water_TOTAL <- #### TOTAL\par
+  list(Waste_Water_144_list,Waste_Water_48_list,Waste_Water_24_list) %>% \par
+  reduce(full_join)\par
+### WASTE WATER  \par
+\par
+\par
+### Combine all substrates\par
+I_Acid_TOTAL <- #### TOTAL\par
+  list(Waste_Water_TOTAL,Soil_2_TOTAL,Soil_1_TOTAL,Clear_Creek_TOTAL) %>% \par
+  reduce(full_join)\par
+\par
+\par
+Question_4 <- I_Acid_TOTAL %>% \par
+  ggplot(aes(x=Time, y=Mean_absorbance,color=`Sample ID`))+\par
+  theme_minimal()+\par
+  facet_wrap(~Dilution)+\par
+  geom_line()\par
+\par
+anim <- Question_4+\par
+  transition_reveal(Time)\par
+\par
+anim\par
+}
+ 

@@ -52,6 +52,8 @@ ggplot(state_max_fatality_rate,aes(x = reorder(Province_State, -Maximum_Fatality
 #VI. (BONUS 10 pts) Using the FULL data set, plot cumulative deaths for the entire US over time
 
 #You’ll need to read ahead a bit and use the dplyr package functions group_by() and summarize() to accomplish this.
-
-
-    # This kicked my butt, so I am not answering the extra credit, haha
+df %>% 
+  group_by(Last_Update) %>% 
+  summarise(cumulativedeaths = sum(Deaths)) %>% 
+  ggplot(aes(x=Last_Update,y=cumulativedeaths)) +
+    geom_point()

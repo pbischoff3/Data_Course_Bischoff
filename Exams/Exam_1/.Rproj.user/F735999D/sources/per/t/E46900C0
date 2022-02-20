@@ -3,7 +3,7 @@
     "path": "C:/Users/pbisc/Desktop/Data_Course_Bischoff/Exams/Exam_1/BISCHOFF_Skills_Test_1.R.R",
     "project_path": "BISCHOFF_Skills_Test_1.R.R",
     "type": "r_source",
-    "hash": "226692528",
+    "hash": "3233829751",
     "contents": "",
     "dirty": false,
     "created": 1644727507782.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "51,0",
-        "scrollLine": "30"
+        "cursorPosition": "59,0",
+        "scrollLine": "33"
     },
     "folds": "",
-    "lastKnownWriteTime": 1644795285,
+    "lastKnownWriteTime": 1645118193,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1644795285285,
+    "last_content_update": 1645118193534,
     "read_only": false,
     "read_only_alternatives": []
 }
