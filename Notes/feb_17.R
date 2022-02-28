@@ -44,6 +44,8 @@ table1 %>%
   mutate(rate = cases/population) %>% 
   arrange(rate,desc(population)) #have to rely on fact that ascending is default.
 
+table2
+
 table2 %>% 
   pivot_wider(id_cols = c(country,year),
               names_from = type,
@@ -51,7 +53,8 @@ table2 %>%
 table3 %>% 
   separate(rate, into = c("Cases","Population"))
 
-full_join(
+table4a
+full_oin(
   table4a %>% 
     pivot_longer(-country, names_to = "year", values_to = "cases"),
   table4b %>% 
