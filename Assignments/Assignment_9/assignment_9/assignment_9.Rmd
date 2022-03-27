@@ -1,0 +1,191 @@
+---
+title: "Assignment 9"
+author: "Porter Bischoff"
+date: "3/25/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+<br>
+<br>
+
+#### *My name is Porter Bischoff; welcome to my TedTalk.*
+<br>
+<br>
+<br>
+
+### *Load Packages*
+<br>
+First off, we loaded the packages we needed:
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+library(tidyverse)
+library(janitor)
+library(modelr)
+library(easystats)
+```
+<br>
+<br>
+<br>
+
+### *Load .csv*
+<br>
+Next, we added the .csv file "GradSchool_Admissions":
+
+```{r message=FALSE, warning=FALSE}
+df <- read_csv("../../../Data/GradSchool_Admissions.csv")
+
+df %>% glimpse()
+```
+<br>
+<br>
+<br>
+
+### *True / False*
+<br>
+This is all great and dandy, but the binary ideas in the column "Admit" feels silly to me. Instead, let's make it TRUE or FALSE, allowing us to better understand the data set:
+```{r}
+df <- df %>% 
+  mutate(admit=case_when(admit==1 ~ TRUE,
+                         admit== 0 ~ FALSE),
+         rank=factor(rank))
+
+df %>% glimpse()
+```
+<br>
+Now we have it in TRUE or FALSE, and for me, that is a ton easier to read.
+<br>
+<br>
+<br>
+
+### *What should our model be?*
+<br>
+Great, this is all loaded. The data is clean and ready to go. We need to create models and add predictions. To start in understanding which models to run, lets run a ggpairs in the GGally package, showing us the data in many different graphical forms:
+```{r message=FALSE, warning=FALSE}
+library(GGally)
+ggpairs(df)
+```
+<br>
+Let's take a deeper dive into what these charts are actually telling us.
+<br>
+<br>
+<br>
+
+### *Model 1*
+<br>
+The ultimate goal here is the admittance to the university, understanding what factors correspond to that. Therefore, let's look at admittance according to GRE scores, GPAs, and the rank of the university. We will call this "Model 1".
+```{r message=FALSE, warning=FALSE}
+mod1 <- glm(data=df,
+            formula = admit ~ gre + gpa + rank,
+            family = "binomial")
+```
+With this model, let's add predictions according to our model and graph it, allowing us to see if these three factors do affect admittance. 
+```{r message=FALSE, warning=FALSE}
+add_predictions(df, mod1,type = "response") %>% 
+  ggplot(aes(x=gpa,y=pred,color=rank))+
+  geom_smooth()
+```
+<br>
+Pretty cool, showing us that the better rank, better GRE score, and better GPA would lead to a better chance of getting admittance.
+<br>
+<br>
+Let's check out another model, allowing us to better analyze this data.
+<br>
+<br>
+<br>
+
+### *Model 2*
+<br>
+Let's now look at GRE and GPA only as a predictor of admittance, graphing it similarly to before.
+```{r message=FALSE, warning=FALSE}
+mod2 <- glm(data=df,
+            formula = admit ~ gre + gpa,
+            family = "binomial")
+# Adding Predictions
+add_predictions(df, mod2,type = "response") %>% 
+  ggplot(aes(x=gpa,y=pred,color=rank))+
+  geom_smooth()
+```
+<br>
+Well, this doesn't show much. Let's try another model.
+<br>
+<br>
+<br>
+
+### *Model 3*
+<br>
+This model is according to GRE score and college rank, graphed again.
+```{r message=FALSE, warning=FALSE}
+mod3 <- glm(data=df,
+            formula = admit ~ gre + rank,
+            family = "binomial")
+# Adding Predictions
+add_predictions(df, mod3,type = "response") %>% 
+  ggplot(aes(x=gre,y=pred,color=rank))+
+  geom_smooth()
+```
+<br>
+Alright, similar to what we have seen before. Time for another model.
+<br>
+<br>
+<br>
+
+### *Model 4*
+<br>
+This model is similar to the first model, except we are now allowing the y-intercept to change. Let's graph it. 
+```{r message=FALSE, warning=FALSE}
+# Admittance according to gre, gpa, and rank, where y int can change
+mod4 <- glm(data=df,
+            formula = admit ~ gre * gpa + rank,
+            family = "binomial")
+# Adding Predictions
+add_predictions(df, mod4,type = "response") %>% 
+  ggplot(aes(x=gpa,y=pred,color=rank))+
+  geom_smooth()
+
+```
+<br>
+Now, let's do something wild and try one more model, just for good luck.
+<br>
+<br>
+<br>
+
+### *Model 5*
+<br>
+This is another model similar to "model 4" for one last bit of analysis.
+```{r message=FALSE, warning=FALSE}
+mod5 <- glm(data=df,
+            formula = admit ~ gre + gpa * rank,
+            family = "binomial")
+# Adding Predictions
+add_predictions(df, mod5,type = "response") %>% 
+  ggplot(aes(x=gpa,y=pred,color=rank))+
+  geom_smooth()
+```
+<br>
+<br>
+<br>
+
+### *Model Analysis*
+<br>
+Gosh, if you're anything like me, this is all difficult to wrap our head around. Good thing is, R has a function built in to compare these models we made. Let's run it.
+```{r message=FALSE, warning=FALSE}
+#This first code gives us mathematical analysis in a table form.
+compare_models(mod1,mod2,mod3,mod4,mod5, style = "se_p")
+```
+<br>
+For a graphical analysis, let's run this line. 
+```{r message=FALSE, warning=FALSE}
+compare_performance(mod1,mod2,mod3,mod4,mod5) %>% plot()
+```
+<br>
+Models 1 and 4 look pretty interesting, partially as the AIC's are pretty high. Let's take a deeper look there, shall we?
+<br>
+```{r message=FALSE, warning=FALSE}
+compare_performance(mod1,mod4) %>% plot()
+```
+<br>
+
+#### Gosh, this is interesting, as it shows that *Model 4 is a lot more effective to predict admittance in this particular data set.* 

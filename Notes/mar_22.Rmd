@@ -1,0 +1,37 @@
+---
+title: "Untitled"
+author: "Porter Bischoff"
+date: "3/22/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE,message=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+
+This is a quick analysis of the built in "mpg" data set that comes with tidyverse.
+
+Here's a glimpse of the mpg data:
+```{r}
+mpg %>% glimpse()
+```
+
+
+
+Let's plot city mpg against displacement....
+```{r fig.height=3, fig.width=3,fig.align='center'}
+p <- ggplot(mpg,
+       aes(x=displ,y=cty))+
+  geom_point()+
+  theme_minimal()
+plotly::ggplotly(p)
+```
+Lets animate it!
+
+```{r}
+p+
+  gganimate::transition_states(trans)
+```
+

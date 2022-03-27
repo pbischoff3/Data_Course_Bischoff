@@ -1,0 +1,26 @@
+
+Call:
+glm(formula = log10(mass) ~ egg_mass + sex, data = full)
+
+Deviance Residuals: 
+     Min        1Q    Median        3Q       Max  
+-10.5187   -0.4631   -0.0424    0.4690    1.4917  
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  1.6370605  0.0138422 118.266   <2e-16 ***
+egg_mass     0.0092544  0.0001557  59.450   <2e-16 ***
+sexmale      0.0112298  0.0187136   0.600    0.548    
+sexunsexed  -0.0332243  0.0273015  -1.217    0.224    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for gaussian family taken to be 0.3595659)
+
+    Null deviance: 2978.1  on 4741  degrees of freedom
+Residual deviance: 1703.6  on 4738  degrees of freedom
+  (6565 observations deleted due to missingness)
+AIC: 8612.8
+
+Number of Fisher Scoring iterations: 2
+
