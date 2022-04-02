@@ -1,0 +1,17 @@
+---
+title: "Untitled"
+author: "Porter Bischoff"
+date: "3/28/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+getwd()
+source("./Code_Examples/test.R")
+```
+
+```{r}
+file.exists("./Code_Examples/test.csv")
+library(tidyverse)
+```
