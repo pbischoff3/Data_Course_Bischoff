@@ -1,0 +1,161 @@
+---
+title: "Exam 3"
+author: "Porter Bischoff"
+date: "4/1/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Intro
+
+Why hello, everyone. Welcome to my Skills Exam 3. This was a fun one. We were able to use just about everything we learned in class, and that was pretty dope. Let's dive in.
+<br>
+<br>
+
+## Load and Clean Faculty Data
+
+First off, we added our packages and our "FacultySalaries_1995.csv" data to our R script. We then cleaned it up a little. Check it out:
+<br>
+```{r message=FALSE, warning=FALSE}
+# Load Packages ####
+library(tidyverse)
+library(janitor)
+library(modelr)
+library(easystats)
+library(broom)
+# Load and Clean Faculty Salaries####
+faculty <- read_csv("./FacultySalaries_1995.csv")
+glimpse(faculty)
+
+faculty <- janitor::clean_names(faculty)
+
+faculty <- faculty %>% 
+  select(-ends_with("_comp")) %>% 
+  select(-starts_with("num_")) %>% 
+  select(-ends_with("_comp_all")) %>% 
+  select(-ends_with("_salary_all")) %>% 
+  filter(tier != "VIIB")
+
+faculty <- faculty %>% 
+  rename(
+    full = avg_full_prof_salary,
+    assist = avg_assist_prof_salary,
+    assoc = avg_assoc_prof_salary
+  )
+
+faculty <- faculty %>% 
+  pivot_longer(cols = c(full,assoc,assist),
+               names_to = "rank",
+               values_to = "salary")
+glimpse(faculty)
+```
+<br>
+
+Sweet, looks like it is all loaded and ready to go. In the assignment, we were told to recreate a box-and-whisker plot, which was a party. Here is the code for that:
+<br>
+```{r message=FALSE, warning=FALSE}
+# Create Box-and-Whisker####
+faculty %>% 
+  ggplot(aes(x=rank,y=salary,fill=rank))+
+  geom_boxplot()+
+  facet_grid(~tier)+
+  theme_minimal()+
+  theme(axis.text.x = element_text(angle = 60),
+        legend.text = element_text(size=12),
+        axis.text = element_text(size=12),
+        strip.text.x = element_text(size=14))
+```
+<br>
+Now, that chart is beautiful, and if you want to print it off and put it on your wall, but you can do that yourself. You have the R code lol.
+<br>
+<br>
+
+## Build ANOVA 
+<br>
+Our next goal was to create an ANOVA from this data. We applied this ANOVA according to State, Tier, and Rank on Salary. Here it is:
+<br>
+```{r message=FALSE, warning=FALSE}
+# ANOVA test according to State Tier and Rank on Salary ####
+anova <- aov(salary ~ state + tier + rank, data = faculty)
+summary(anova)
+```
+<br>
+What does this mean? You decide. Analyzing the data wasn't part of my assignment. ;)
+
+<br>
+<br>
+
+## Load and Clean Juniper Data
+<br>
+
+We took a pivot for the next part of the assignment, working with a new data set. We loaded that data set and cleaned it up a bit. Many thanks to Zahn for providing the names of the oils so I didn't have to type them all out. Here is the cleaning of the data:
+
+<br>
+```{r message=FALSE, warning=FALSE}
+# Load juniper_oils.csv and clean ####
+oil <- read_csv("./Juniper_Oils.csv")
+glimpse(oil)
+
+oil <- oil %>% 
+  select(c("alpha-pinene","para-cymene","alpha-terpineol","cedr-9-ene","alpha-cedrene","beta-cedrene",
+           "cis-thujopsene","alpha-himachalene","beta-chamigrene","cuparene","compound 1","alpha-chamigrene",
+           "widdrol","cedrol","beta-acorenol","alpha-acorenol","gamma-eudesmol","beta-eudesmol","alpha-eudesmol",
+           "cedr-8-en-13-ol","cedr-8-en-15-ol","compound 2","thujopsenal","YearsSinceBurn")) %>% 
+  janitor::clean_names()
+
+oil <- oil %>% 
+  pivot_longer(cols = !years_since_burn,
+               names_to = "chemical_id",
+               values_to = "concentration")
+glimpse(oil)
+```
+<br>
+It's all loaded. Let's play with it now. 
+<br>
+<br>
+
+## Graph the Data
+<br>
+
+Our next steps in the assignment was to recreate a set of graphs, with "Years_Since_Burn" on the x axis and "Concentration" on the y axis. We faceted these according to "chemicalID" with the y axis scales free. Here are those charts:
+<br>
+
+```{r message=FALSE, warning=FALSE}
+# Graph with a facet ~chemical_id ####
+oil %>% 
+  ggplot(aes(x=years_since_burn,y=concentration))+
+  geom_smooth()+
+  facet_wrap(~chemical_id, scales = "free_y")+
+  theme_minimal()
+```
+<br>
+Again, beautiful charts. Beautiful charts.
+<br>
+<br>
+
+## Generalized Linear Model 
+<br>
+
+Awesome. Our next step, we created a GLM to view which chemical concentrations are significantly affected by the amount of years since the burn. Here is that info:
+<br>
+```{r message=FALSE, warning=FALSE}
+# GLM to find significant chemicals ####
+x <- oil %>% 
+  glm(formula = concentration ~ years_since_burn + chemical_id,
+      family = "gaussian")
+summary(x)
+
+x_adj <- broom::tidy(x)
+
+x_adj <- x_adj %>% 
+  filter(p.value<=.05)
+print(x_adj)
+```
+<br>
+Well, that's all folks. Thanks for checking it out. 
+<br>
+
+![](https://media.giphy.com/media/xUPOqo6E1XvWXwlCyQ/giphy.gif)
