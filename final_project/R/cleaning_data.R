@@ -5,7 +5,7 @@ library(easystats)
 library(janitor)
 
 # Read Excel and Clean Names ####
-df <- read_xlsx("../../../Documents/Medical Conditions and Science Motivation Data 3.4.22.xlsx",range = "A1:BR501")
+df <- read_xlsx("../final_project/Data/Raw/Medical Conditions and Science Motivation Data 3.4.22.xlsx",range = "A1:BR501")
 
 df <- df %>% 
   janitor::clean_names()

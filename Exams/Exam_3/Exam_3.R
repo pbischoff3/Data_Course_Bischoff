@@ -74,8 +74,10 @@ x <- oil %>%
       family = "gaussian")
 summary(x)
 
-x_adj <- broom::tidy(x)
+x_adj <- broom::tidy(x) %>% 
+  mutate(term = term %>% str_remove_all("chemical_id"))
 
 x_adj <- x_adj %>% 
   filter(p.value<=.05)
+
 print(x_adj)
