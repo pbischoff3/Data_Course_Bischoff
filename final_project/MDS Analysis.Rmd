@@ -1,0 +1,191 @@
+---
+title: "MDS Analysis"
+author: "Porter Bischoff"
+date: "4/13/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(readxl)
+library(easystats)
+library(janitor)
+library(modelr)
+library(GGally)
+library(vegan)
+library(patchwork)
+```
+
+## Multi Dimensional Analysis
+
+Let's load our data and clean it up, removing the rows that do not have any data:
+
+```{r message=FALSE, warning=FALSE}
+# Read in data ####
+df <- readxl::read_excel("./Data/Raw/Medical Conditions and Science Motivation Data 3.4.22.xlsx")
+df <- df %>% 
+  janitor::clean_names()
+df <- df %>% 
+  select(-index,-semester,-type,-course,-pre_post) %>% 
+  select(-starts_with("resilience"))
+
+# Clean data ####
+df <- df %>% 
+  mutate(major=case_when(major == "1" ~ "Biology",
+                         major == "4" ~ "Chemistry",
+                         major == "5" ~ "Earth_sci",
+                         major == "6" ~ "Mathematics",
+                         major == "7" ~ "Physics",
+                         major == "8" ~ "Engineering",
+                         major == "9" ~ "Computer_sci",
+                         major == "10" ~ "Health_sci",
+                         major == "3" ~ "Non_STEM",
+                         major == "11" ~ "Other"))
+df <- df %>% 
+  mutate(career=case_when(career == "1" ~ "medical_doctor",
+                          career == "4" ~ "dentist",
+                          career == "5" ~ "health_care_pro",
+                          career == "6" ~ "scientist",
+                          career == "7" ~ "engineer",
+                          career == "8" ~ "science_communicator",
+                          career == "9" ~ "educator",
+                          career == "10" ~ "technician",
+                          career == "11" ~ "researcher",
+                          career == "3" ~ "non_stem"))
+
+df <- df %>% 
+  mutate(gender=case_when(gender == "1" ~ "male",
+                          gender == "2" ~ "trans_m",
+                          gender == "5" ~ "trans_w",
+                          gender == "6" ~ "female",
+                          gender == "7" ~ "non_conforming",
+                          gender == "8" ~ "intersex",
+                          gender == "9" ~ "two_spirited",
+                          gender == "10" ~ "prefer_not_answer",
+                          gender == "11" ~ "other"))
+
+df <- df %>% 
+  mutate(ethnicity=case_when(ethnicity == "1" ~ "african_american",
+                             ethnicity == "4" ~ "american_indian",
+                             ethnicity == "5" ~ "arab",
+                             ethnicity == "6" ~ "asian",
+                             ethnicity == "7" ~ "latinx",
+                             ethnicity == "8" ~ "biracial",
+                             ethnicity == "9" ~ "pacific_islander",
+                             ethnicity == "10" ~ "white",
+                             ethnicity == "11" ~ "prefer_not_answer",
+                             ethnicity == "12" ~ "other"))
+
+df <- df[complete.cases(df),]
+```
+<br>
+Next, we need to create more data frames for use in our Andonis analysis later:
+```{r message=FALSE, warning=FALSE}
+si <- df %>% 
+  select(starts_with("si"))
+
+cm <- df %>% 
+  select(starts_with("cm"))
+
+im <- df %>% 
+  select(starts_with("im"))
+
+sd <- df %>% 
+  select(starts_with("sd"))
+
+se <- df %>% 
+  select(starts_with("se"))
+
+gm <- df %>% 
+  select(starts_with("gm"))
+
+sci_comp <- df %>% 
+  select(starts_with("sci_comp"))
+
+per_comm_orient <- df %>% 
+  select(starts_with("per_comm_orient"))
+
+sci_comm_orient <- df %>% 
+  select(starts_with("sci_comm_orient"))
+
+demo <- df %>% 
+  select(major,gender,career,ethnicity,parents_grad_college,dependents,med_condition,med_condition_dependent)
+
+questions <- df %>% 
+  select(-major,-gender,-career,-ethnicity,-parents_grad_college,-dependents,-med_condition,-med_condition_dependent)
+
+```
+<br>
+Now that that is taken care of, let's make a function we can use through our whole project:
+```{r message=FALSE, warning=FALSE}
+mysubsetMDS <- function(x){
+  mysubset <- df %>% 
+    select(starts_with(x))
+  
+  meta <- metaMDS(mysubset)
+  MDS_df <- data.frame(MDS1=meta$points[,1],MDS2=meta$points[,2]) %>%
+    cbind(demo)
+  return(MDS_df)
+}
+```
+<br>
+Awesome! We have everything done for the background, so now let's look into the data a bit.
+<br>
+<br>
+
+## Major
+One of the demographic aspects that we measured was what one's major is. With this, let's use major as a basis for multi-dimensional analysis against the different "main variables" that we measured in the survey:
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+x=1
+major_plots <- list()
+for(i in c("si","cm","im","sd","se","gm","sci_comp","per_comm_orient","sci_comm_orient")){
+  major_plots[[x]] <- mysubsetMDS(i) %>% 
+    ggplot(aes(x=MDS1,y=MDS2,color=factor(major)))+
+    geom_point()+
+    labs(title = i)+
+    stat_ellipse()
+  x <- x+1
+}
+
+
+```
+
+Let's run this according to Science Identity:
+
+```{r message=FALSE, warning=FALSE}
+major_plots[[1]] %>% print()
+```
+
+What does this mean? Tough to understand for sure. It looks like an atom, for pity sake. If we run an Adonis analysis on this, we can find out whether or not the different majors answer science identity questions differently in a significant way. Here is that Adonis analysis:
+
+```{r message=FALSE, warning=FALSE}
+adonis(si ~ demo$major)
+```
+Man! Look at that. It looks like there is a **significant** difference here. We can't do anything more with this data right now, but we can use it as a basis for creating a model later on. We will remember that this is significant.
+<br> <br>
+Let's now check out this analysis for Career Motivation:
+```{r message=FALSE, warning=FALSE}
+major_plots[[2]] %>% print()
+```
+<br>This is mostly pointless again, a lot of circles tough to understand. Let's run an Adonis again, yeah? 
+```{r message=FALSE, warning=FALSE}
+adonis(cm ~ demo$major)
+```
+For this, the p-value is not significant, so differences between different majors for career motivation was not found in our study.
+<br> <br>
+Our next aspect to explore is "Intrinsic Motivation", and the plot and Adonis can be found below:
+```{r message=FALSE, warning=FALSE}
+major_plots[[3]] %>% print
+adonis(im ~ demo$major)
+```
+<br> Again, this doesn't look to be significant from the p-value.
+<br> <br>
+
+How about self determination now?
+```{r}
+major_plots[[4]]
+adonis(sd ~ demo$major)
+
+```
+

@@ -6,7 +6,7 @@ library(janitor)
 library(modelr)
 
 # Read in Data####
-source("")
+df <- read_csv("./Data/Clean/clean_data.csv")
 
 # Model 1 ####
 # Does gender have an effect on science motivation?
